@@ -11,7 +11,8 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
 set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -s -DNDEBUG -march=native")
 
 # boost setting
-find_package(Boost 1.59.0 COMPONENTS system REQUIRED)
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.59.0 COMPONENTS system unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
 
@@ -29,6 +30,5 @@ target_link_libraries(kaleido
 # tests
 if(NOT without-test)
     enable_testing()
-    include(cmake/gtest.cmake)
     add_subdirectory(test)
 endif()

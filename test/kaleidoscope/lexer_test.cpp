@@ -1,36 +1,40 @@
-#include <gtest/gtest.h>
+#define BOOST_TEST_MODULE kaleidoscope lexer test
+#include <boost/test/unit_test.hpp>
+
 #include <kaleidoscope/lexer.h>
 
 namespace  {
 
     using namespace kaleidoscope::syntax;
 
-    class LexerTest : public ::testing::Test {};
+    BOOST_AUTO_TEST_SUITE(lexer_test)
 
-    TEST_F(LexerTest, IDENT)
-    {
-        auto l = kaleidoscope::syntax::lexer("def extern ident");
-        EXPECT_TRUE(kaleidoscope::syntax::token(kaleidoscope::syntax::keyword::DEF) == l.next());
-        EXPECT_TRUE(kaleidoscope::syntax::token(kaleidoscope::syntax::keyword::EXTERN) == l.next());
-        EXPECT_TRUE(kaleidoscope::syntax::token(kaleidoscope::syntax::ident{"ident"}) == l.next());
-    }
+        BOOST_AUTO_TEST_CASE(keywords_test)
+        {
+            auto l = kaleidoscope::syntax::lexer("def extern ident");
+            BOOST_CHECK(kaleidoscope::syntax::token(kaleidoscope::syntax::keyword::DEF) == l.next());
+            BOOST_CHECK(kaleidoscope::syntax::token(kaleidoscope::syntax::keyword::EXTERN) == l.next());
+            BOOST_CHECK(kaleidoscope::syntax::token(kaleidoscope::syntax::ident{"ident"}) == l.next());
+        }
 
-    TEST_F(LexerTest, NUM)
-    {
-        auto l = kaleidoscope::syntax::lexer("12.3");
-        EXPECT_TRUE(kaleidoscope::syntax::token(kaleidoscope::syntax::number{12.3}) == l.next());
-        EXPECT_TRUE(kaleidoscope::syntax::token(kaleidoscope::syntax::keyword::EOF_) == l.next());
-    }
+        BOOST_AUTO_TEST_CASE(num_test)
+        {
+            auto l = kaleidoscope::syntax::lexer("12.3");
+            BOOST_CHECK(kaleidoscope::syntax::token(kaleidoscope::syntax::number{12.3}) == l.next());
+            BOOST_CHECK(kaleidoscope::syntax::token(kaleidoscope::syntax::keyword::EOF_) == l.next());
+        }
 
-    TEST_F(LexerTest, SYMBOL)
-    {
-        auto l = lexer("(){},");
-        EXPECT_TRUE(token(symbol::LPAREN) == l.next());
-        EXPECT_TRUE(token(symbol::RPAREN) == l.next());
-        EXPECT_TRUE(token(symbol::LBRACE) == l.next());
-        EXPECT_TRUE(token(symbol::RBRACE) == l.next());
-        EXPECT_TRUE(token(symbol::COMMA) == l.next());
-        EXPECT_TRUE(token(keyword::EOF_) == l.next());
-    }
+        BOOST_AUTO_TEST_CASE(symbol_test)
+        {
+            auto l = lexer("(){},");
+            BOOST_CHECK(token(symbol::LPAREN) == l.next());
+            BOOST_CHECK(token(symbol::RPAREN) == l.next());
+            BOOST_CHECK(token(symbol::LBRACE) == l.next());
+            BOOST_CHECK(token(symbol::RBRACE) == l.next());
+            BOOST_CHECK(token(symbol::COMMA) == l.next());
+            BOOST_CHECK(token(keyword::EOF_) == l.next());
+        }
+
+    BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace 

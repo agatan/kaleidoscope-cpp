@@ -6,10 +6,9 @@ add_executable(kaleidoscope-test
     ${CPPFILES})
 
 target_link_libraries(kaleidoscope-test
-    gtest
-    gtest_main
     pthread
     kaleido-lib
+    ${Boost_LIBRARIES}
     )
 
 add_test(
