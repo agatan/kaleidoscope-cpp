@@ -18,7 +18,7 @@ namespace  {
 
         BOOST_AUTO_TEST_CASE(num_test)
         {
-            auto l = kaleidoscope::syntax::lexer("12.3");
+            auto l = kaleidoscope::syntax::lexer("12.3 ");
             BOOST_CHECK(kaleidoscope::syntax::token(kaleidoscope::syntax::number{12.3}) == l.next());
             BOOST_CHECK(kaleidoscope::syntax::token(kaleidoscope::syntax::keyword::EOF_) == l.next());
         }
@@ -31,6 +31,15 @@ namespace  {
             BOOST_CHECK(token(symbol::LBRACE) == l.next());
             BOOST_CHECK(token(symbol::RBRACE) == l.next());
             BOOST_CHECK(token(symbol::COMMA) == l.next());
+            BOOST_CHECK(token(keyword::EOF_) == l.next());
+        }
+
+        BOOST_AUTO_TEST_CASE(op_test)
+        {
+            lexer l("1 + 2");
+            BOOST_CHECK(token(number{1}) == l.next());
+            BOOST_CHECK(token(op{'+'}) == l.next());
+            BOOST_CHECK(token(number{2}) == l.next());
             BOOST_CHECK(token(keyword::EOF_) == l.next());
         }
 

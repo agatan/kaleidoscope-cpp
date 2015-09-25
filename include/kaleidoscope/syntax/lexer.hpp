@@ -12,7 +12,8 @@ namespace kaleidoscope {
     namespace syntax {
 
         struct unknown {
-            bool operator==(unknown const&) const {
+            bool operator==(unknown const&) const noexcept
+            {
                 return true;
             }
         };
@@ -34,7 +35,7 @@ namespace kaleidoscope {
         struct number {
             double value;
 
-            bool operator==(number const& rhs) const
+            bool operator==(number const& rhs) const noexcept
             {
                 auto diff = value - rhs.value;
                 return diff < 0.001 && -diff < 0.001;
@@ -44,7 +45,16 @@ namespace kaleidoscope {
         struct ident {
             std::string value;
 
-            bool operator==(ident const& rhs) const
+            bool operator==(ident const& rhs) const noexcept
+            {
+                return value == rhs.value;
+            }
+        };
+
+        struct op {
+            char value;
+
+            bool operator==(op const& rhs) const noexcept
             {
                 return value == rhs.value;
             }
@@ -55,7 +65,8 @@ namespace kaleidoscope {
                                 keyword,
                                 symbol,
                                 number,
-                                ident
+                                ident,
+                                op
                             >
                         ;
 
@@ -65,6 +76,10 @@ namespace kaleidoscope {
                 : line_(1), line_head_(1), head_(std::begin(src)),
                   begin_(std::begin(src)), end_(std::end(src)) {}
 
+            lexer(lexer const&) = default;
+
+            lexer(lexer&&) = default;
+
             token next();
         private:
             unsigned int line_;
@@ -73,11 +88,13 @@ namespace kaleidoscope {
             std::string::const_iterator begin_;
             std::string::const_iterator end_;
 
-            char peek() const {
+            char peek() const
+            {
                 return *begin_;
             }
 
-            void next_char() {
+            void next_char() noexcept
+            {
                 if (peek() == '\n') {
                     line_++;
                     line_head_ = std::distance(head_, begin_) + 1;
@@ -86,7 +103,8 @@ namespace kaleidoscope {
                 return;
             }
 
-            bool is_eof() const {
+            bool is_eof() const noexcept
+            {
                 return begin_ == end_;
             }
 

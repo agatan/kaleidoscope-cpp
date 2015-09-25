@@ -36,7 +36,8 @@ namespace kaleidoscope {
             } else if (std::isdigit(c)) {
                 return parse_num();
             }
-            return unknown{};
+            next_char();
+            return op { c };
         }
 
         void lexer::skip_ws() {
