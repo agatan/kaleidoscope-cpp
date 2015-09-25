@@ -1,6 +1,6 @@
 #include <cctype>
 
-#include <kaleidoscope/lexer.h>
+#include <kaleidoscope/syntax/lexer.hpp>
 
 namespace kaleidoscope {
     namespace syntax {

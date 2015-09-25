@@ -1,7 +1,6 @@
-#define BOOST_TEST_MODULE kaleidoscope lexer test
 #include <boost/test/unit_test.hpp>
 
-#include <kaleidoscope/lexer.h>
+#include <kaleidoscope/syntax/lexer.hpp>
 
 namespace  {
 

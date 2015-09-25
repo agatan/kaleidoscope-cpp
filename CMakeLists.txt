@@ -23,7 +23,7 @@ include_directories(include)
 add_subdirectory(lib)
 
 # executables
-add_executable(kaleido main.cpp include/kaleidoscope/lexer.h)
+add_executable(kaleido main.cpp)
 target_link_libraries(kaleido
     kaleido-lib)
 
