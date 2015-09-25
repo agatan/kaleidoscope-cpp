@@ -37,7 +37,7 @@ namespace kaleidoscope {
                         >
                         ;
 
-        class expr {};
+        class expr : public ast_node {};
 
         class number_expr : public expr {
         public:
@@ -49,6 +49,8 @@ namespace kaleidoscope {
                 auto diff = value_ - rhs.value_;
                 return diff < 0.0001 && -diff < 0.0001;
             }
+
+            double value() const noexcept { return value_; }
 
         private:
             double value_;
@@ -64,6 +66,8 @@ namespace kaleidoscope {
                 return name_ == rhs.name_;
             }
 
+            std::string const& name() const noexcept { return name_; }
+
         private:
             std::string name_;
         };
@@ -77,6 +81,10 @@ namespace kaleidoscope {
             {
                 return op_ == rhs.op_ && lhs_ == rhs.lhs_ && rhs_ == rhs.rhs_;
             }
+
+            char op() const noexcept { return op_; }
+            any_expr const& lhs() const noexcept { return lhs_; }
+            any_expr const& rhs() const noexcept { return rhs_; }
 
         private:
             char op_;
@@ -125,6 +133,9 @@ namespace kaleidoscope {
             {
                 return proto_ == rhs.proto_ && body_ == rhs.body_;
             }
+
+            prototype const& proto() const noexcept { return proto_; }
+            any_expr const& body() const noexcept { return body_; }
 
         private:
             prototype proto_;
