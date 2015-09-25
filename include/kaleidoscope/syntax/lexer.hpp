@@ -78,6 +78,8 @@ namespace kaleidoscope {
 
             lexer(lexer const&) = default;
 
+            lexer& operator=(lexer const&) = default;
+
             lexer(lexer&&) = default;
 
             token next();

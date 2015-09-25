@@ -139,6 +139,19 @@ namespace kaleidoscope {
             return func(proto, body);
         }
 
+        prototype parser::parse_extern()
+        {
+            eat_keyword(keyword::EXTERN);
+            return parse_proto();
+        }
+
+        func parser::parse_toplevel_expression()
+        {
+            auto e = parse_expression();
+            prototype p("__anon_expr", {});
+            return func(p, e);
+        }
+
         void parser::eat_keyword(keyword k)
         {
             if (!boost::get<keyword>(&current_)) {

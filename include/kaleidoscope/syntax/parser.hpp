@@ -25,6 +25,12 @@ namespace kaleidoscope {
                 current_ = lex_.next();
             }
 
+            void change_source(lexer const& l) noexcept
+            {
+                lex_ = l;
+                current_ = lex_.next();
+            }
+
             token const& peek() const noexcept { return current_; }
 
             void next() noexcept
@@ -41,6 +47,8 @@ namespace kaleidoscope {
 
             prototype parse_proto();
             func parse_func();
+            prototype parse_extern();
+            func parse_toplevel_expression();
 
             void register_binop(char op, int prec)
             {
